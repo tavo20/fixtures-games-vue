@@ -25,7 +25,7 @@
             }
         }
         h1 {
-                color: #58c3a7;
+            color: var(--colorApp);
             letter-spacing: 5px;
         }
     }
