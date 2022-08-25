@@ -21,6 +21,7 @@
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
 
   --colorApp: #58c3a7;
+  --colorGray: rgba(60, 55, 55, 0.1);
 }
 
 /* semantic color variables for this project */
@@ -37,7 +38,11 @@
 
   --section-gap: 160px;
 }
-
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--vt-c-black);

@@ -1,32 +1,54 @@
 <template>
     <section>
-        <!-- <div class="date"> {{ dateFixtures }}</div> -->
+        <!-- DATE -->
         <div class="container-date">
-            <input type="date" id="start" name="trip-start"
+            <input 
+                type="date" 
+                id="viewCalendar"
+                 name="trip-start"
                 min="2022-01-01" max="2022-12-31"
                 :value="dateFixtures"
                 @change="getFixtures"
                 >
+                <div class="icon-calendar-container">
+                    <div @click="onClickDate"> {{ dateFixtures }} </div>
+                    <img @click="onClickDate" class="img-calendar" src="../assets/icons/app/calendar.png" alt="">
+
+                </div>
         </div>
+
         <div v-if="!withoutFixtures">
             <div class="league-container" v-for="(league, index,) in fixtures" :key="index">
+            <!-- LEAGUE -->
                 <div class="container-logo-league">
                     <div>
                         <img :src="league.league.logo" alt="logo-league">
                     </div>
                     <h3>{{ league.league.name}} <span>{{ league.league.country}}</span></h3>
                 </div>
+                <!-- GAMES -->
                 <div class="games">
                     <div class="container-game" v-for="fixture in league.fixtures">
+
+                    <div class="x-div center" @click="()=> onFavoriteGame(fixture)">
+                        <img class="img-only-start" v-if="!fixture.favorite" src="../assets/icons/app/star.png" alt="">
+                        <img class="img-fill-star" v-if="fixture.favorite" src="../assets/icons/app/star-fill.png" alt="">
+                    </div>
+
                         <div class="team team-home">
                             <div>{{ fixture.teams.home.name}}</div>
                             <figure>
                                 <img :src="fixture.teams.home.logo" alt="">
                             </figure>
                         </div>
-                        <div class="hour">
+                        <div class="hour" v-if="fixture.fixture.status.short !== 'FT'">
                             {{ fixture.hour }}
                         </div>
+
+                        <div v-else class="center">
+                          {{ fixture.score.fulltime.home }} - {{ fixture.score.fulltime.away }}
+                        </div>
+
                         <div class="team team-away">
                             <figure>
                                 <img :src="fixture.teams.away.logo" alt="">
@@ -55,13 +77,15 @@ const emit = defineEmits(['changeDate']);
 
 let { fixtures, dateFixtures } = toRefs(props);
 
-console.log('fixtures', fixtures.value);
-if(!fixtures) {
+console.log('fixtures----', fixtures.value);
+if(!fixtures.value) {
+    console.log('333')
     withoutFixtures.value = true;
 }
 
 
 watch(fixtures, (newValue, oldValue) => {
+    console.log(newValue, )
     if(!newValue) {
         withoutFixtures.value = true;
         return;
@@ -76,6 +100,23 @@ const getFixtures = async (e) => {
     emit('changeDate', { date });
 }
 
+const onClickDate = () => {
+    const nodeInput = document.getElementById('viewCalendar')
+    console.log('nodeInput', nodeInput);
+    if(nodeInput) {
+        nodeInput.showPicker();
+    } 
+}
+
+const onFavoriteGame = (fixture) => {
+    console.log('onFavoriteGame',);
+
+    fixture.favorite = !fixture.favorite;
+    
+    // const game = e.target.parentNode.parentNode;
+    // game.classList.toggle('favorite');
+}
+
 </script>
 
 
@@ -87,10 +128,17 @@ const getFixtures = async (e) => {
         flex-direction: column;
 
         .container-date {
-            text-align: end;
-            margin: 10px;
+            display: flex;
+            justify-content: flex-end;
+            margin: 20px 10px;
+            .icon-calendar-container {
+                    display: flex;
+                    gap: 20px;
+                    cursor: pointer;
+            }
 
             input[type="date"] {
+                visibility: hidden;
                     // background: no-repeat;
                     // align-content: normal;
                     // outline: none;
@@ -100,6 +148,9 @@ const getFixtures = async (e) => {
                     // width: 216px;
                     // text-align: end;
  
+            }
+            .img-calendar {
+                width: 20px;
             }
 
         }
@@ -143,9 +194,21 @@ const getFixtures = async (e) => {
             .games {
                 .container-game {
                     display: grid;
-                    grid-template-columns: 1fr 50px 1fr;
+                    grid-template-columns: 20px 1fr 50px 1fr;
                     gap: 10px;
-                        margin: 15px 0;
+                    margin: 15px 0;
+                    .x-div {
+                        img {
+                            width: 20px;
+                            margin: 0 0 0 10px;    
+
+                        }
+                        visibility: hidden;
+                        .img-fill-star {
+                            visibility: visible;
+                            
+                        }
+                    }
                     figure {
                         margin: 0;
                         img {
@@ -180,7 +243,29 @@ const getFixtures = async (e) => {
                 }
                 .container-game:hover {
                     background: rgb(60 55 55 / 10%);
+                    cursor: pointer;
                 }
+                .container-game:hover .x-div .img-only-start {
+                    visibility: visible;
+                    position: relative;
+                    // animation: test 2s backwards 0.2  fill-mode;
+                    animation-name: test;
+                    animation-duration: 1s;
+                    animation-fill-mode: forwards ;
+                }
+                
+                @keyframes test {
+                0%   { left:0px; top:0px;}
+                25%  { left:8px; top:0px;}
+
+                100% { left:0px; top:0px;}
+                }
+                // @keyframes test {
+                //     0%   {opacity: 0.2, }
+                //     25%  {opacity: 0.4;}
+                //     50%  {opacity: 0.7}
+                //     100% {opacity: 1; color: red;}
+                // }
             }
 
         }

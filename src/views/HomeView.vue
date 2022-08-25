@@ -25,8 +25,8 @@ onMounted(async () => {
 
     console.log('date fns', format(new Date(), 'yyyy-MM-dd'));
     dateFixtures.value = format(new Date(), 'yyyy-MM-dd');
-
-    await getFixtures({ date: '2022-08-27'})
+    console.log('dateFixtures.value HERE', dateFixtures.value)
+    await getFixtures({ date: dateFixtures.value })
 
 
     changeLoading();

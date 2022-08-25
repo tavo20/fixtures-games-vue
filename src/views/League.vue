@@ -67,10 +67,9 @@
                     }
                 }
                 .league-item:hover {
-                    background: #58c3a7;
+                    background: var(--colorGray);
                     cursor: pointer;
                     border-radius: 3px;
-                    color: black;
                 } 
             }
 
