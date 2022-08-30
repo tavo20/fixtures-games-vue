@@ -77,10 +77,10 @@ const route = useRoute();
 
 console.log(route.params.date);
 
-watch(route.params, (newVal, oldVal) => {
-    console.log(newVal);
-    console.log(oldVal);
-} );
+// watch(route.params, (newVal, oldVal) => {
+//     console.log(newVal);
+//     console.log(oldVal);
+// } );
 
 
 

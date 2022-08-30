@@ -4,7 +4,7 @@
             <h2>Leagues</h2>
     
             <div class="container-leagues">
-                <div class="league-item"  v-for="league in leagues" :key="league._id">
+                <div class="league-item"  v-for="league in leagues" :key="league._id" @click="()=> handleViewLeague(league)">
                     <div class="league-item-image">
                         <img :src="league.image" alt="">
                     </div>
@@ -79,7 +79,9 @@
 
 <script setup>
 
-import { defineProps, toRefs } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+const router = useRouter();
+const route = useRoute();
 
 let props = defineProps({
     leagues: {
@@ -93,6 +95,16 @@ let props = defineProps({
 });
 
 let { leagues, valueTest } = (props);
-console.log('leagues c', leagues[0].country);
-console.log('LEAGUE COM', props, props.valueTest);
+
+function handleViewLeague(league) {
+    console.log('league', league, league.league);
+    router.push({
+        path: `/home/league/${league.league}`,
+        // params: {
+        //     idLeague: league._id
+        // }
+    });
+
+}
+
 </script>

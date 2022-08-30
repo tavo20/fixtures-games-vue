@@ -4,7 +4,14 @@ import Information from './Information.vue';
 import Games from './Games.vue';
 import { onMounted, ref, watch } from 'vue';
 import Loading from '../components/Loading.vue';
-import { compareAsc, format } from 'date-fns'
+import { format } from 'date-fns'
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute();
+
+console.log('home.vue', router);
+console.log('route', route);
 
 let leagues  = ref(null);
 let fixtures  = ref(null);
@@ -14,65 +21,75 @@ let valueTest  = ref('primero');
 
 const changeLoading = () => {
     loading.value = !loading.value;
+    console.log('cambio', loading.value);
 }
 
-onMounted(async () => {
+watch(route, (newVal, oldVal) => {
+    console.log('watch router home-----', newVal.params);
+    console.log(oldVal.params);
 
+
+    getFixtures({ date:dateFixtures.value, league: newVal.params.idLeague });
+});
+
+onMounted(async () => {
     // document.title = 'Home';
     const respon = await fetch('https://encarar.herokuapp.com/api/league/get/all');
     const leaguesRespon = await  respon.json();
     leagues.value = leaguesRespon;
 
-    console.log('date fns', format(new Date(), 'yyyy-MM-dd'));
     dateFixtures.value = format(new Date(), 'yyyy-MM-dd');
-    console.log('dateFixtures.value HERE', dateFixtures.value)
-    await getFixtures({ date: dateFixtures.value })
+    console.log('GET fixtures');
+    await getFixtures({ date: dateFixtures.value });
 
 
     changeLoading();
-    valueTest.value ="segundo";
 });
 
-const getFixtures = async ({ date = "" }) => {
-  console.log('home', date);
+const getFixtures = async ({ date = "", league = "" }) => {
+  // ?email=${email}
+  console.log('GET fixtures', date, league);
+    let url = `http://localhost:8085/api/fixture/day/${date}`;
+    if(league !== "") {
+        url = `http://localhost:8085/api/fixture/day/${date}/?league=${league}`;
+    }
 
-    const fixturesRes = await fetch(`http://localhost:8085/api/fixture/day/${date}`);
+    const fixturesRes = await fetch(url ); 
     const fixturesRespon = await fixturesRes.json();
+    console.log('RESPON BACK', fixturesRespon)
     dateFixtures.value = date;
     fixtures.value = fixturesRespon.fixtures;
 }
 
-
-
 watch(leagues, (newValue, oldValue) => {
-    console.log('leagues', newValue, oldValue);
-} );
-watch(valueTest, (newValue, oldValue) => {
-    console.log('valueTest', newValue, oldValue);
-} );
+    // console.log('leagues', newValue, oldValue);
+});
+
 </script>
 
 <template>
+ 
   <main v-if="!loading">
     <League  
       :leagues="leagues"
       :valueTest="valueTest"
-    > </League>
+    >
+    </League>
   
     <Games
       :fixtures="fixtures"
       :dateFixtures="dateFixtures"
       @changeDate="getFixtures"
-
       >
       
     </Games>
 
-
     <Information/>
-  <div v-if="loading">
-    <Loading/>
-  </div >
+
+    <div v-if="loading">
+      <h1>HIIIIII</h1>
+      <Loading/>
+    </div >
 
   </main>
 
@@ -81,7 +98,7 @@ watch(valueTest, (newValue, oldValue) => {
 <style scoped lang="scss">
 
 main {
-    max-width: 1280px;
+  max-width: 1280px;
   display: grid;
   grid-template-columns: 30% 50% 20%;
   justify-items: center;

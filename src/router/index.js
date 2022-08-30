@@ -15,6 +15,18 @@ const router = createRouter({
       component: () => import("../views/Homeview.vue"),
     },
     {
+      path: "/home",
+      name: "home",
+      component: () => import("../views/Homeview.vue"),
+      children: [
+        {
+          path: "league/:idLeague",
+        
+          component: () => import("../views/Homeview.vue"),
+        },
+      ],
+    },
+    {
       path: "/favorite",
       name: "favorite",
       component: () => import("../views/Favorites.vue"),

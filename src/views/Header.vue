@@ -12,7 +12,7 @@
             <ul>
                    <li>
                         <router-link :to="{ name: 'home' }">
-                        Inicio
+                        Home
                         </router-link>
                     </li>
                    <li>
@@ -68,7 +68,7 @@ import { RouterLink, RouterView } from 'vue-router'
                 ul {
                         display: flex;
                         list-style: none;
-                        gap: 10px;
+                        gap: 20px;
                     li {
 
                         a {
