@@ -1,5 +1,4 @@
 <script setup>
-import HomeView from './views/HomeView.vue';
 import Header from './views/Header.vue';
 import { RouterView } from 'vue-router'
 
@@ -8,11 +7,8 @@ import { RouterView } from 'vue-router'
 
 <template>
   <Header></Header>
-  <!-- <HomeView/> -->
-
-    <router-view>
-
-    </router-view>
+  <router-view>
+  </router-view>
 
 </template>
 

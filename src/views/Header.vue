@@ -22,7 +22,7 @@
                    </li>
                    <li>
                         <router-link to="/about">
-                          About
+                          About us
                        </router-link>
                     </li>
             </ul>

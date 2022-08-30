@@ -19,45 +19,49 @@
 
         <div v-if="!withoutFixtures">
             <div class="league-container" v-for="(league, index,) in fixtures" :key="index">
-            <!-- LEAGUE -->
-                <div class="container-logo-league">
+                <transition name="fade">
                     <div>
-                        <img :src="league.league.logo" alt="logo-league">
-                    </div>
-                    <h3>{{ league.league.name}} <span>{{ league.league.country}}</span></h3>
-                </div>
-                <!-- GAMES -->
-                <div class="games">
-                    <div class="container-game" v-for="fixture in league.fixtures">
-
-                    <div class="x-div center" @click="()=> onFavoriteGame(fixture)">
-                        <img class="img-only-start" v-if="!fixture.favorite" src="../assets/icons/app/star.png" alt="">
-                        <img class="img-fill-star" v-if="fixture.favorite" src="../assets/icons/app/star-fill.png" alt="">
-                    </div>
-
-                        <div class="team team-home">
-                            <div>{{ fixture.teams.home.name}}</div>
-                            <figure>
-                                <img :src="fixture.teams.home.logo" alt="">
-                            </figure>
+                        <!-- LEAGUE -->
+                        <div class="container-logo-league">
+                            <div>
+                                <img :src="league.league.logo" alt="logo-league">
+                            </div>
+                            <h3>{{ league.league.name}} <span>{{ league.league.country}}</span></h3>
                         </div>
-                        <div class="hour" v-if="fixture.fixture.status.short !== 'FT'">
-                            {{ fixture.hour }}
-                        </div>
-
-                        <div v-else class="center">
-                          {{ fixture.score.fulltime.home }} - {{ fixture.score.fulltime.away }}
-                        </div>
-
-                        <div class="team team-away">
-                            <figure>
-                                <img :src="fixture.teams.away.logo" alt="">
-                            </figure>
-                            <div>{{ fixture.teams.away.name}}</div>
-                        </div>
-                    </div>
+                        <!-- GAMES -->
+                        <div class="games">
+                            <div class="container-game" v-for="fixture in league.fixtures">
     
-                </div>
+                            <div class="x-div center" @click="()=> onFavoriteGame(fixture)">
+                                <img class="img-only-start" v-if="!fixture.favorite" src="../assets/icons/app/star.png" alt="">
+                                <img class="img-fill-star" v-if="fixture.favorite" src="../assets/icons/app/star-fill.png" alt="">
+                            </div>
+    
+                                <div class="team team-home">
+                                    <div>{{ fixture.teams.home.name}}</div>
+                                    <figure>
+                                        <img :src="fixture.teams.home.logo" alt="">
+                                    </figure>
+                                </div>
+                                <div class="hour" v-if="fixture.fixture.status.short !== 'FT'">
+                                    {{ fixture.hour }}
+                                </div>
+    
+                                <div v-else class="center">
+                                {{ fixture.score.fulltime.home }} - {{ fixture.score.fulltime.away }}
+                                </div>
+    
+                                <div class="team team-away">
+                                    <figure>
+                                        <img :src="fixture.teams.away.logo" alt="">
+                                    </figure>
+                                    <div>{{ fixture.teams.away.name}}</div>
+                                </div>
+                            </div>
+            
+                        </div>
+                    </div>
+                </transition>
             </div>
         </div>
         <div class="without-games" v-else >
@@ -290,4 +294,14 @@ const onFavoriteGame = (fixture) => {
 
         }
     }
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
 </style>

@@ -8,15 +8,12 @@ const router = createRouter({
       path: "/",
       redirect: "/home",
     },
+
     {
       path: "/home",
       name: "home",
       alias: "/home",
-      component: () => import("../views/Homeview.vue"),
-    },
-    {
-      path: "/home",
-      name: "home",
+
       component: () => import("../views/Homeview.vue"),
       children: [
         {

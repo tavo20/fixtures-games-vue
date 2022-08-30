@@ -24,12 +24,14 @@ const changeLoading = () => {
     console.log('cambio', loading.value);
 }
 
-watch(route, (newVal, oldVal) => {
+watch(route, async (newVal, oldVal) => {
     console.log('watch router home-----', newVal.params);
     console.log(oldVal.params);
 
+    changeLoading();
 
-    getFixtures({ date:dateFixtures.value, league: newVal.params.idLeague });
+    await getFixtures({ date:dateFixtures.value, league: newVal.params.idLeague });
+    changeLoading();
 });
 
 onMounted(async () => {
@@ -39,26 +41,39 @@ onMounted(async () => {
     leagues.value = leaguesRespon;
 
     dateFixtures.value = format(new Date(), 'yyyy-MM-dd');
-    console.log('GET fixtures');
-    await getFixtures({ date: dateFixtures.value });
+    console.log('GET fixtures', route.params );
+    let league  = route.params.idLeague || false;
+    await getFixtures({ date: dateFixtures.value, league });
 
-
-    changeLoading();
+    setTimeout(() => {
+      changeLoading();
+    }, 1000)
 });
 
+/**
+ * Get fixtures by date and league.
+ * @param {*} date Date I want to get the fixtures.
+ * @param {*} league League I want to get the fixtures.
+ */
 const getFixtures = async ({ date = "", league = "" }) => {
-  // ?email=${email}
-  console.log('GET fixtures', date, league);
-    let url = `http://localhost:8085/api/fixture/day/${date}`;
-    if(league !== "") {
-        url = `http://localhost:8085/api/fixture/day/${date}/?league=${league}`;
-    }
 
-    const fixturesRes = await fetch(url ); 
-    const fixturesRespon = await fixturesRes.json();
-    console.log('RESPON BACK', fixturesRespon)
-    dateFixtures.value = date;
-    fixtures.value = fixturesRespon.fixtures;
+  try {
+    console.log('GET fixtures', date, league);
+      let url = `http://localhost:8085/api/fixture/day/${date}`;
+      if(league) {
+          url = `http://localhost:8085/api/fixture/day/${date}/?league=${league}`;
+      }
+  
+      // Get data
+      const fixturesRes = await fetch(url); 
+      const fixturesRespon = await fixturesRes.json();
+
+      dateFixtures.value = date;
+      fixtures.value = fixturesRespon.fixtures;
+
+  } catch(err) {
+    console.error('Error get fixtures', err);
+  }
 }
 
 watch(leagues, (newValue, oldValue) => {
@@ -86,12 +101,14 @@ watch(leagues, (newValue, oldValue) => {
 
     <Information/>
 
+
+  </main>
+
     <div v-if="loading">
-      <h1>HIIIIII</h1>
+      <div></div>
       <Loading/>
     </div >
 
-  </main>
 
 </template>
 
