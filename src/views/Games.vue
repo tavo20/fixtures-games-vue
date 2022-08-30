@@ -19,10 +19,10 @@
 
         <div class="league-container" v-if="!withoutFixtures">
             <Game 
-             v-for="(league, index,) in fixtures" 
-             :key="index"
-             :league="league"
-             >
+                v-for="(league, index,) in fixtures" 
+                :key="index"
+                :league="league"
+                >
             </Game>
         </div>
         
@@ -78,15 +78,6 @@ const onClickDate = () => {
         nodeInput.showPicker();
     } 
 }
-
-const onFavoriteGame = (fixture) => {
-
-    fixture.favorite = !fixture.favorite;
-    
-    // const game = e.target.parentNode.parentNode;
-    // game.classList.toggle('favorite');
-}
-
 </script>
 
 

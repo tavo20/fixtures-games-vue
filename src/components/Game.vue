@@ -51,6 +51,11 @@ const props = defineProps({
     },
 });
 
+const onFavoriteGame = (fixture) => {
+    console.log('fixture', fixture.fixtureId);
+    fixture.favorite = !fixture.favorite;
+}
+
 
 </script>
 
