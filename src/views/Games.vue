@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-        <div v-else>
+        <div class="without-games" v-else >
             No hay partidos para esta fecha
         </div>
     </section>
@@ -68,7 +68,21 @@
 
 <script  setup>
 
-import {  watch, ref, toRefs, defineEmits } from 'vue';
+import {  watch, ref, toRefs, onMounted } from 'vue';
+
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter();
+const route = useRoute();
+
+console.log(route.params.date);
+
+watch(route.params, (newVal, oldVal) => {
+    console.log(newVal);
+    console.log(oldVal);
+} );
+
+
 
 let withoutFixtures = ref(false);
 const props = defineProps(['fixtures', 'dateFixtures']);
@@ -77,12 +91,10 @@ const emit = defineEmits(['changeDate']);
 
 let { fixtures, dateFixtures } = toRefs(props);
 
-console.log('fixtures----', fixtures.value);
 if(!fixtures.value) {
     console.log('333')
     withoutFixtures.value = true;
 }
-
 
 watch(fixtures, (newValue, oldValue) => {
     console.log(newValue, )
@@ -126,6 +138,13 @@ const onFavoriteGame = (fixture) => {
         width: 100%;
         height: auto;
         flex-direction: column;
+
+        .without-games {
+            text-align: center;
+            color: #58c3a7;
+            letter-spacing: 2px;
+            margin: 30px 0;
+        }
 
         .container-date {
             display: flex;
@@ -250,13 +269,14 @@ const onFavoriteGame = (fixture) => {
                     position: relative;
                     // animation: test 2s backwards 0.2  fill-mode;
                     animation-name: test;
-                    animation-duration: 1s;
+                    animation-duration: .81s;
                     animation-fill-mode: forwards ;
+                    // animation-delay: .5s ;
                 }
                 
                 @keyframes test {
-                0%   { left:0px; top:0px;}
-                25%  { left:8px; top:0px;}
+                0%   { left:0px; top:0px; }
+                25%  { left:5px; top:0px;}
 
                 100% { left:0px; top:0px;}
                 }
