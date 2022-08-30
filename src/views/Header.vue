@@ -52,6 +52,7 @@ import { RouterLink, RouterView } from 'vue-router'
                 display: flex;
                 align-items: center;
                 gap: 30px;
+                margin: 0px 15px;
                 figure {
                     img {
                         width: 50px;

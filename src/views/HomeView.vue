@@ -10,26 +10,17 @@ import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 
-console.log('home.vue', router);
-console.log('route', route);
-
 let leagues  = ref(null);
 let fixtures  = ref(null);
 let loading  = ref(true);
 let dateFixtures  = ref(true);
-let valueTest  = ref('primero');
 
 const changeLoading = () => {
     loading.value = !loading.value;
-    console.log('cambio', loading.value);
 }
 
 watch(route, async (newVal, oldVal) => {
-    console.log('watch router home-----', newVal.params);
-    console.log(oldVal.params);
-
     changeLoading();
-
     await getFixtures({ date:dateFixtures.value, league: newVal.params.idLeague });
     changeLoading();
 });
@@ -41,8 +32,8 @@ onMounted(async () => {
     leagues.value = leaguesRespon;
 
     dateFixtures.value = format(new Date(), 'yyyy-MM-dd');
-    console.log('GET fixtures', route.params );
-    let league  = route.params.idLeague || false;
+    let league = route.params.idLeague || false;
+
     await getFixtures({ date: dateFixtures.value, league });
 
     setTimeout(() => {
@@ -58,12 +49,10 @@ onMounted(async () => {
 const getFixtures = async ({ date = "", league = "" }) => {
 
   try {
-    console.log('GET fixtures', date, league);
       let url = `http://localhost:8085/api/fixture/day/${date}`;
-      if(league) {
-          url = `http://localhost:8085/api/fixture/day/${date}/?league=${league}`;
+      if (league) {
+          url += `?league=${league}`;
       }
-  
       // Get data
       const fixturesRes = await fetch(url); 
       const fixturesRespon = await fixturesRes.json();
@@ -77,37 +66,33 @@ const getFixtures = async ({ date = "", league = "" }) => {
 }
 
 watch(leagues, (newValue, oldValue) => {
-    // console.log('leagues', newValue, oldValue);
 });
-
 </script>
 
 <template>
  
-  <main v-if="!loading">
+  <main>
     <League  
       :leagues="leagues"
-      :valueTest="valueTest"
     >
     </League>
   
-    <Games
+    <Games v-if="!loading"
       :fixtures="fixtures"
       :dateFixtures="dateFixtures"
       @changeDate="getFixtures"
       >
-      
     </Games>
+
+    <div v-if="loading">
+      <Loading/>
+    </div >
 
     <Information/>
 
-
   </main>
 
-    <div v-if="loading">
-      <div></div>
-      <Loading/>
-    </div >
+
 
 
 </template>

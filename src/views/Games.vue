@@ -79,11 +79,8 @@ import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 
-console.log(route.params.date);
 
 // watch(route.params, (newVal, oldVal) => {
-//     console.log(newVal);
-//     console.log(oldVal);
 // } );
 
 
@@ -96,12 +93,10 @@ const emit = defineEmits(['changeDate']);
 let { fixtures, dateFixtures } = toRefs(props);
 
 if(!fixtures.value) {
-    console.log('333')
     withoutFixtures.value = true;
 }
 
 watch(fixtures, (newValue, oldValue) => {
-    console.log(newValue, )
     if(!newValue) {
         withoutFixtures.value = true;
         return;
@@ -118,14 +113,12 @@ const getFixtures = async (e) => {
 
 const onClickDate = () => {
     const nodeInput = document.getElementById('viewCalendar')
-    console.log('nodeInput', nodeInput);
     if(nodeInput) {
         nodeInput.showPicker();
     } 
 }
 
 const onFavoriteGame = (fixture) => {
-    console.log('onFavoriteGame',);
 
     fixture.favorite = !fixture.favorite;
     

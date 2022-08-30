@@ -2,19 +2,17 @@
     <section>
         <div class="container-general">
             <h2>Leagues</h2>
-    
-            <div class="container-leagues">
-                <div class="league-item"  v-for="league in leagues" :key="league._id" @click="()=> handleViewLeague(league)">
-                    <div class="league-item-image">
-                        <img :src="league.image" alt="">
-                    </div>
-                    <div class="league-item-info">
-                        <h3>{{ league.nameLeague}}</h3>
-                        <p> {{ league.country }}</p>
-                    </div>
-                </div>
-
-            </div>
+     
+            <!-- <h1>{{ leagues }}</h1> -->
+            <template class="container-leagues" v-if="leagues && leagues.length">
+                <LeagueCo 
+                     v-for="league in leagues" 
+                    :is="league"
+                     :key="league._id" 
+                     @click="()=> handleViewLeague(league)"
+                     :league="league"
+                ></LeagueCo>
+            </template>
         </div>
     </section>
 </template> 
@@ -41,36 +39,7 @@
                 justify-content: center;
                 gap: 30px;
                 flex-direction: column;
-                .league-item {
-                        display: grid;
-                        width: 100%;
-                        grid-template-columns: 70px 1fr;
-                        padding: 4px 0;
-                    .league-item-image {
-                            // display: flex;
-                            // justify-content: center;
-                            // align-items: center;
-                        img {
-                                width: 45px;
-                                height: 45px;
-                                object-fit: contain;
-                        }
-                    }
-                    .league-item-info {
-                        h3 {
-                            font-size: 16px;
-                            font-weight: bold;
-                        }
-                        p {
-                            font-size: 13px;
-                        }
-                    }
-                }
-                .league-item:hover {
-                    background: var(--colorGray);
-                    cursor: pointer;
-                    border-radius: 3px;
-                } 
+
             }
 
         }
@@ -79,7 +48,12 @@
 
 <script setup>
 
+import { toRefs } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+
+import { defineAsyncComponent } from 'vue';
+const LeagueCo = defineAsyncComponent(() => import('../components/LeagueCo.vue'));
+// import LeagueCo from '../components/LeagueCo.vue';
 const router = useRouter();
 const route = useRoute();
 
@@ -88,16 +62,13 @@ let props = defineProps({
         type: Array,
         default: []
     },
-    valueTest: {
-        type: String,
-        default: 'true'
-    }
 });
 
-let { leagues, valueTest } = (props);
+let { leagues } = toRefs(props);
+console.log('leaguesLL', leagues)
 
 function handleViewLeague(league) {
-    console.log('league', league, league.league);
+    console.log('league', league);
     router.push({
         path: `/home/league/${league.league}`,
         // params: {
