@@ -3,6 +3,12 @@ const config = {
     api: 'https://encarar.herokuapp.com/api/',
 }
 
+
+
+
+
+
+
 export default config;
 
 
