@@ -1,7 +1,7 @@
 <template>
     <header>
 
-        <div class="container-logo-app">
+        <div class="container-logo-app" >
             <figure>
                 <img src="../../src/assets/icons/app/icono-app.png" alt="">
             </figure>
@@ -53,6 +53,7 @@ import { RouterLink, RouterView } from 'vue-router'
                 align-items: center;
                 gap: 30px;
                 margin: 0px 15px;
+                border-radius: 50%;
                 figure {
                     img {
                         width: 50px;

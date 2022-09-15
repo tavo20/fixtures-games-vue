@@ -65,10 +65,8 @@ let props = defineProps({
 });
 
 let { leagues } = toRefs(props);
-console.log('leaguesLL', leagues)
 
 function handleViewLeague(league) {
-    console.log('league', league);
     router.push({
         path: `/home/league/${league.league}`,
         // params: {

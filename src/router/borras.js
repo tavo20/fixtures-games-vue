@@ -10,14 +10,12 @@ let date = '2019-01-02';
 
 // format day
 date = date.split('-');
-console.log(date);
 
 // order dates by ascending order
 const orderedDates = dates.sort((a, b) => {
     return new Date(a) - new Date(b)
 });
 
-console.log(orderedDates);
 
 const arrayTest = [
     // 'c',

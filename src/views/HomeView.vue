@@ -6,6 +6,7 @@ import { onMounted, ref, watch } from 'vue';
 import Loading from '../components/Loading.vue';
 import { format } from 'date-fns'
 import { useRouter, useRoute } from 'vue-router';
+import { getFixturesApi } from '../api/fixtures'
 
 const router = useRouter();
 const route = useRoute();
@@ -18,6 +19,7 @@ let dateFixtures  = ref(true);
 const changeLoading = () => {
     loading.value = !loading.value;
 }
+
 
 watch(route, async (newVal, oldVal) => {
     changeLoading();
@@ -36,10 +38,18 @@ onMounted(async () => {
 
     await getFixtures({ date: dateFixtures.value, league });
 
+
     setTimeout(() => {
       changeLoading();
     }, 1000)
 });
+
+const  getFixturesEmitDay = async ({date})  => {
+    let league = route.params.idLeague || false;
+    await getFixtures({ date, league });
+
+
+}
 
 /**
  * Get fixtures by date and league.
@@ -47,15 +57,9 @@ onMounted(async () => {
  * @param {*} league League I want to get the fixtures.
  */
 const getFixtures = async ({ date = "", league = "" }) => {
-
   try {
-      let url = `http://localhost:8085/api/fixture/day/${date}`;
-      if (league) {
-          url += `?league=${league}`;
-      }
-      // Get data
-      const fixturesRes = await fetch(url); 
-      const fixturesRespon = await fixturesRes.json();
+
+      const fixturesRespon = await getFixturesApi({ date, league });
 
       dateFixtures.value = date;
       fixtures.value = fixturesRespon.fixtures;
@@ -80,7 +84,7 @@ watch(leagues, (newValue, oldValue) => {
     <Games v-if="!loading"
       :fixtures="fixtures"
       :dateFixtures="dateFixtures"
-      @changeDate="getFixtures"
+      @changeDate="getFixturesEmitDay"
       >
     </Games>
 

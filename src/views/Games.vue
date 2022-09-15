@@ -12,7 +12,8 @@
                 >
                 <div class="icon-calendar-container">
                     <div @click="onClickDate"> {{ dateFixtures }} </div>
-                    <img @click="onClickDate" class="img-calendar" src="../assets/icons/app/calendar.png" alt="">
+                    <img @click="onClickDate" class="img-calendar"
+                     src="../assets/icons/app/calendar.png" alt="">
 
                 </div>
         </div>
@@ -27,7 +28,7 @@
         </div>
         
         <div class="without-games" v-else >
-            No hay partidos para esta fecha
+            There are no matches for this date
         </div>
     </section>
 </template>
