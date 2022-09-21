@@ -1,1 +1,0 @@
-import{_ as t,o,c as s,F as n,b as e}from"./index.8969a5a5.js";const c={},a=e("h1",null,"About us",-1),r=e("h1",null,"Test About newww",-1);function _(l,u){return o(),s(n,null,[a,r],64)}const f=t(c,[["render",_]]);export{f as default};

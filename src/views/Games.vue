@@ -28,7 +28,7 @@
         </div>
         
         <div class="without-games" v-else >
-            There are no matches for this date
+            There are no matches for this date.
         </div>
     </section>
 </template>

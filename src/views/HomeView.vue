@@ -75,7 +75,7 @@ watch(leagues, (newValue, oldValue) => {
 
 <template>
  
-  <main>
+  <div class="main-app-container">
     <League  
       :leagues="leagues"
     >
@@ -94,16 +94,14 @@ watch(leagues, (newValue, oldValue) => {
 
     <Information/>
 
-  </main>
-
-
+  </div>
 
 
 </template>
 
 <style scoped lang="scss">
 
-main {
+.main-app-container {
   max-width: 1280px;
   display: grid;
   grid-template-columns: 30% 50% 20%;

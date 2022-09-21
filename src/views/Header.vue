@@ -3,7 +3,7 @@
 
         <div class="container-logo-app" >
             <figure>
-                <img src="../../src/assets/icons/app/icono-app.png" alt="">
+                <!-- <img src="src/assets/icons/app/icono-app.png" alt=""> -->
             </figure>
            <h1>Encarar</h1>
         </div>
